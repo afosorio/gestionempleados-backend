@@ -9,10 +9,16 @@ public class Office {
 
     private Long id;
     private String name;
-    private String geographicalLocation;
-
+    private Location geographicalLocation;
     @JsonIgnore
     private List<Employee> employees;
+
+    public Office(Long id, String name, long geographicalLocation) {
+        this.id = id;
+        this.name = name;
+        EnumOfficeLocation enumOfficeLocation = EnumOfficeLocation.findById(geographicalLocation);
+        this.geographicalLocation = new Location(enumOfficeLocation.ordinal(), enumOfficeLocation.getValue());
+    }
 
     public Long getId() {
         return id;
@@ -30,11 +36,11 @@ public class Office {
         this.name = name;
     }
 
-    public String getGeographicalLocation() {
+    public Location getGeographicalLocation() {
         return geographicalLocation;
     }
 
-    public void setGeographicalLocation(String geographicalLocation) {
+    public void setGeographicalLocation(Location geographicalLocation) {
         this.geographicalLocation = geographicalLocation;
     }
 

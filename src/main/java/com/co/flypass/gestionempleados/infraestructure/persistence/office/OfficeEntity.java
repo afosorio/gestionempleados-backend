@@ -1,7 +1,7 @@
 package com.co.flypass.gestionempleados.infraestructure.persistence.office;
 
+import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.infraestructure.persistence.employee.EmployeeEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,12 +19,30 @@ public class OfficeEntity {
     private String name;
 
     @Column(name = "location")
-    private String geographicalLocation;
+    private long geographicalLocation;
 
-    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("office")
+    @OneToMany(mappedBy = "office", fetch = FetchType.LAZY)
     private List<EmployeeEntity> employees;
 
+    public List<EmployeeEntity> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<EmployeeEntity> employees) {
+        this.employees = employees;
+    }
+
+    public OfficeEntity(Long id, String name, long geographicalLocation) {
+        this.id = id;
+        this.name = name;
+        this.geographicalLocation = geographicalLocation;
+    }
+
+    public OfficeEntity(Long id) {
+        this.id = id;
+    }
+    public OfficeEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -42,19 +60,29 @@ public class OfficeEntity {
         this.name = name;
     }
 
-    public String getGeographicalLocation() {
+    public long getGeographicalLocation() {
         return geographicalLocation;
     }
 
-    public void setGeographicalLocation(String geographicalLocation) {
+    public void setGeographicalLocation(long geographicalLocation) {
         this.geographicalLocation = geographicalLocation;
     }
 
-    public List<EmployeeEntity> getEmployees() {
-        return employees;
+    public static OfficeEntity fromDomain(final Office office) {
+        return new OfficeEntity(
+                office.getId(),
+                office.getName(),
+                office.getGeographicalLocation().id()
+        );
     }
 
-    public void setEmployees(List<EmployeeEntity> employees) {
-        this.employees = employees;
+    public Office toDomain() {
+
+        return new Office(
+                this.id,
+                this.name,
+                this.geographicalLocation
+
+        );
     }
 }

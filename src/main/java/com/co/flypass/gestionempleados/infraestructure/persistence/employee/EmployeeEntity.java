@@ -1,6 +1,6 @@
 package com.co.flypass.gestionempleados.infraestructure.persistence.employee;
 
-
+import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.infraestructure.persistence.office.OfficeEntity;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Table(name="tb_employees")
 public class EmployeeEntity
 {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -37,8 +36,22 @@ public class EmployeeEntity
     @Column(name = "salary")
     private Double salary;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private OfficeEntity office;
+
+    public EmployeeEntity(Long id, String name, String document, String position, LocalDate contractDate, String status, Double salary, OfficeEntity office) {
+        this.id = id;
+        this.name = name;
+        this.document = document;
+        this.position = position;
+        this.contractDate = contractDate;
+        this.status = status;
+        this.salary = salary;
+        this.office = office;
+    }
+
+    public EmployeeEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -94,5 +107,39 @@ public class EmployeeEntity
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public OfficeEntity getOffice() {
+        return office;
+    }
+
+    public void setOffice(OfficeEntity office) {
+        this.office = office;
+    }
+
+    public static EmployeeEntity fromDomain(final Employee employee) {
+        return new EmployeeEntity(
+                employee.getId(),
+                employee.getName(),
+                employee.getDocument(),
+                employee.getPosition(),
+                employee.getContractDate(),
+                employee.getStatus(),
+                employee.getSalary(),
+                OfficeEntity.fromDomain(employee.getOffice())
+        );
+    }
+
+    public Employee toDomain() {
+        return new Employee(
+                this.id,
+                this.name,
+                this.document,
+                this.position,
+                this.contractDate,
+                this.status,
+                this.salary,
+                this.office.toDomain()
+        );
     }
 }

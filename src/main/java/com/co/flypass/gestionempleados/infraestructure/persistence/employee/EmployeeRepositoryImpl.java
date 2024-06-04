@@ -2,32 +2,34 @@ package com.co.flypass.gestionempleados.infraestructure.persistence.employee;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.domain.employee.EmployeeRepository;
-import com.co.flypass.gestionempleados.domain.office.Office;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public interface EmployeeRepositoryImpl extends CrudRepository<EmployeeEntity, Long>, EmployeeRepository {
+public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntity, Long>, EmployeeRepository {
 
     @Override
     default void save(Employee employee) {
-
+        save(EmployeeEntity.fromDomain(employee));
     }
 
     @Override
     default void update(Employee employee) {
-
+        save(employee);
     }
 
     @Override
-    default void delete(Long id) {
-
+    default Optional<Employee> findByEmployeeId(Long officeId) {
+       return findById(officeId).map(EmployeeEntity::toDomain);
     }
 
     @Override
-    default Optional<Office> findByEmployeeId(Long officeId) {
-        return Optional.empty();
+    default List<Employee> findAllEmployess() {
+       return findAll().stream().map(EmployeeEntity::toDomain).collect(Collectors.toList());
     }
+
 }
