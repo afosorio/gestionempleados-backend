@@ -37,6 +37,11 @@ public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntit
     }
 
     @Override
+    default Optional<List<Employee>> findByDocument(String document){
+        return findAllEmployess(document, null, null);
+    }
+
+    @Override
     default Optional<List<Employee>>  findAllEmployess(String document, String position, String status) {
 
         Specification<EmployeeEntity> specification = EmployeeSpecification.get(document, position, status);
@@ -45,10 +50,5 @@ public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntit
 
         if (listDomain.isEmpty()) return Optional.empty();
         return Optional.of(listDomain);
-    }
-
-    @Override
-    default Optional<List<Employee>> findByDocument(String document){
-        return findAllEmployess(document, null, null);
     }
 }
