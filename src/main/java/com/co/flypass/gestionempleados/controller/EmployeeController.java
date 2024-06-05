@@ -17,18 +17,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void save(@RequestBody Employee employee){
+    public void save(@RequestBody Employee employee) throws AppException {
         employeeService.save(employee);
     }
 
     @PutMapping
     public void update(@RequestBody Employee employee){
         employeeService.update(employee);
-    }
-
-    @PutMapping("/updateposition")
-    public void updatePosition(@RequestBody Employee employee){
-        employeeService.save(employee);
     }
 
     @GetMapping("/all")
@@ -46,10 +41,10 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public  Response<Object> getEmployeeById(@PathVariable long id)  throws AppException  {
-        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getEmployeeById(id));
+        return new Response<>(HttpServletResponse.SC_OK, "Empleado encotrado", employeeService.getEmployeeById(id));
     }
 
-    @PutMapping("/{id}/{position}")
+    @PutMapping("/updateposition/{id}/{position}")
     public void updatePosition(@PathVariable Long id, @PathVariable String position) throws AppException {
          employeeService.updatePosition(id, position);
     }

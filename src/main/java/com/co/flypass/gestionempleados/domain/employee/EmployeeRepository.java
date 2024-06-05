@@ -11,6 +11,8 @@ public interface EmployeeRepository {
 
     Optional<Employee> findByEmployeeId(Long officeId);
 
+    Optional<List<Employee>> findByDocument(String document);
+
     Optional<List<Employee>> findAllEmployess();
 
     Optional<List<Employee>> findAllEmployess( final String document,

@@ -23,7 +23,7 @@ public class OfficeController {
     @GetMapping("/employee/{employeeId}")
     public Response<Object> employeeOffice(@PathVariable long employeeId) throws Exception {
 
-        return new Response<>(HttpServletResponse.SC_OK, "Oficina consultada", officeService.getOfficeByEmployee(employeeId));
+        return new Response<>(HttpServletResponse.SC_OK, "Oficina encontrada", officeService.getOfficeByEmployee(employeeId));
     }
 
     @GetMapping("/employeescount/{officeId}")

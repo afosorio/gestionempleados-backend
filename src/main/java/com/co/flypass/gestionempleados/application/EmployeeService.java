@@ -2,25 +2,54 @@ package com.co.flypass.gestionempleados.application;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.domain.employee.EmployeeRepository;
+import com.co.flypass.gestionempleados.domain.office.Office;
+import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
 import com.co.flypass.gestionempleados.exception.AppException;
 import com.co.flypass.gestionempleados.exception.NoDataFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final OfficeRepository officeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, OfficeRepository officeRepository) {
         this.employeeRepository = employeeRepository;
+        this.officeRepository = officeRepository;
     }
 
-    public void save(Employee employee) {
+    public void save(Employee employee) throws AppException {
+
+        validateEmployee(employee);
         employeeRepository.save(employee);
+    }
+
+    private void validateEmployee(Employee employee) throws AppException {
+
+        if (Objects.isNull(employee)) {
+            throw new AppException("La oficina es obligatoria");
+        }
+
+        Optional<Office> sourceOffice = officeRepository.findOfficeById(employee.getOffice().getId());
+        if(sourceOffice.isEmpty()){
+            throw new NoDataFoundException("La oficina no Existe");
+        }
+
+        if(Objects.isNull(employee.getDocument()) || employee.getDocument().isEmpty()){
+            throw new NoDataFoundException("El Documento es obligatorio");
+        }
+
+        Optional<List<Employee>> sourceEmployee = employeeRepository.findByDocument(employee.getDocument());
+        if(sourceEmployee.isPresent()){
+            throw new NoDataFoundException("El Empleado con documento " + employee.getDocument() + " ya existe");
+        }
     }
 
     public void update(Employee employee) {
@@ -48,22 +77,18 @@ public class EmployeeService {
 
     public List<Employee> getAll() throws AppException {
 
-        Optional<List<Employee>>employeeList = employeeRepository.findAllEmployess();
+        Optional<List<Employee>> employeeList = employeeRepository.findAllEmployess();
 
-        if(employeeList.isPresent())
-        {
+        if (employeeList.isPresent()) {
             Comparator<Employee> comparator = Comparator.comparing(Employee::getContractDate);
             return employeeList.get().stream().sorted(comparator).toList();
         }
-
         throw new NoDataFoundException("No se encontraron Empleados");
-
     }
 
     public List<Employee> getAll(final String document, final String position, final String status) throws AppException {
-        Optional<List<Employee>>employeeList = employeeRepository.findAllEmployess(document, position, status);
-        if(employeeList.isPresent())
-        {
+        Optional<List<Employee>> employeeList = employeeRepository.findAllEmployess(document, position, status);
+        if (employeeList.isPresent()) {
             return employeeList.get();
         }
         throw new NoDataFoundException("No se encontraron Empleados");

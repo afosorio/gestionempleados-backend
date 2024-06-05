@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntity, Long>,
@@ -46,5 +45,18 @@ public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntit
 
         if (listDomain.isEmpty()) return Optional.empty();
         return Optional.of(listDomain);
+    }
+
+    @Override
+    default Optional<List<Employee>> findByDocument(String document){
+
+        Specification<EmployeeEntity> specification = EmployeeSpecification.get(document, null, null);
+        List<EmployeeEntity> listEntity = findAll(specification);
+        List<Employee> listDomain = listEntity.stream().map(EmployeeEntity::toDomain).toList();
+
+        if (listDomain.isEmpty()) return Optional.empty();
+        return Optional.of(listDomain);
+
+
     }
 }
