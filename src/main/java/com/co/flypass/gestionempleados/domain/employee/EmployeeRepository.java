@@ -19,5 +19,5 @@ public interface EmployeeRepository {
     final String position,
     final String status);
 
-    Integer countByOfficeId(long officeId);
+    int countByOfficeId(long officeId);
 }

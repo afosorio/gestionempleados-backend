@@ -76,7 +76,7 @@ public class EmployeeService {
         throw new NoDataFoundException(Constant.EMPLOYEE_NOT_FOUND);
     }
 
-    public Integer countByOfficeId(long id) {
+    public int countByOfficeId(long id) {
         return employeeRepository.countByOfficeId(id);
     }
 
