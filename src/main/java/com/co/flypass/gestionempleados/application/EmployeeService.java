@@ -6,6 +6,8 @@ import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
 import com.co.flypass.gestionempleados.exception.AppException;
 import com.co.flypass.gestionempleados.exception.NoDataFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -18,6 +20,7 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final OfficeRepository officeRepository;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     public EmployeeService(EmployeeRepository employeeRepository, OfficeRepository officeRepository) {
         this.employeeRepository = employeeRepository;
@@ -35,16 +38,20 @@ public class EmployeeService {
 
         Optional<Office> sourceOffice = officeRepository.findOfficeById(employee.getOffice().getId());
         if (sourceOffice.isEmpty()) {
-            throw new NoDataFoundException("La oficina no Existe");
+            logger.info(Constant.OFFICE_NOT_FOUND);
+            throw new NoDataFoundException(Constant.OFFICE_NOT_FOUND);
         }
 
         Optional<List<Employee>> sourceEmployee = employeeRepository.findByDocument(employee.getDocument());
         if (sourceEmployee.isPresent()) {
-            throw new NoDataFoundException("El Empleado con documento " + employee.getDocument() + " ya existe");
+
+            logger.info(Constant.EMPLOYEE_DOCUMENT_EXIST.replace("%", employee.getDocument()));
+            throw new NoDataFoundException(Constant.EMPLOYEE_DOCUMENT_EXIST.replace("%", employee.getDocument()));
         }
 
         if (Objects.isNull(employee.getStatus())) {
-            throw new AppException("El estado No Existe");
+            logger.info(Constant.STATUS_NOT_FOUND);
+            throw new AppException(Constant.STATUS_NOT_FOUND);
         }
 
     }
@@ -65,7 +72,8 @@ public class EmployeeService {
         if (employee.isPresent()) {
             return employee.get();
         }
-        throw new NoDataFoundException("Empleado no encontrado");
+        logger.info(Constant.EMPLOYEE_NOT_FOUND);
+        throw new NoDataFoundException(Constant.EMPLOYEE_NOT_FOUND);
     }
 
     public Integer countByOfficeId(long id) {
@@ -80,7 +88,8 @@ public class EmployeeService {
             Comparator<Employee> comparator = Comparator.comparing(Employee::getContractDate);
             return employeeList.get().stream().sorted(comparator).toList();
         }
-        throw new NoDataFoundException("No se encontraron Empleados");
+        logger.info(Constant.EMPLOYEES_NOT_FOUND);
+        throw new NoDataFoundException(Constant.EMPLOYEES_NOT_FOUND);
     }
 
     public List<Employee> getAll(final String document, final String position, final String status) throws AppException {
@@ -88,6 +97,7 @@ public class EmployeeService {
         if (employeeList.isPresent()) {
             return employeeList.get();
         }
-        throw new NoDataFoundException("No se encontraron Empleados");
+        logger.info(Constant.EMPLOYEES_NOT_FOUND);
+        throw new NoDataFoundException(Constant.EMPLOYEES_NOT_FOUND);
     }
 }
