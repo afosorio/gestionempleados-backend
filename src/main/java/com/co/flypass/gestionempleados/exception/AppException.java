@@ -12,26 +12,6 @@ public class AppException extends Exception {
     public AppException() {
     }
 
-    public AppException(String message) {
-        this.msg = message;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public AppException(String code, String msg, Throwable err){
         super(msg, err);
         this.msg = msg;
@@ -44,8 +24,20 @@ public class AppException extends Exception {
         this.code = code;
     }
 
+    public AppException(String msg){
+        super(msg);
+        this.msg = msg;
+    }
+
     public String getExceptionMessage() {
         return this.msg != null ? this.msg : "Error procesando su solicitud";
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public String getCode() {
+        return code;
+    }
 }

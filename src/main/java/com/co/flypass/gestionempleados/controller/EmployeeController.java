@@ -2,8 +2,9 @@ package com.co.flypass.gestionempleados.controller;
 
 import com.co.flypass.gestionempleados.application.EmployeeService;
 import com.co.flypass.gestionempleados.domain.employee.Employee;
+import com.co.flypass.gestionempleados.exception.AppException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -31,17 +32,25 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAll();
+    public  Response<Object> getAllEmployees() throws AppException {
+        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getAll());
+    }
+
+    @GetMapping("/employees")
+    public  Response<Object> getEmployees(@RequestParam(required = false) final String document,
+                                          @RequestParam(required = false) final String position,
+                                          @RequestParam(required = false) final String status) throws AppException {
+
+        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getAll(document, position, status));
     }
 
     @GetMapping("/{id}")
-    public Employee getAllEmployees(@PathVariable Long id) throws Exception {
-        return employeeService.getEmployeeById(id);
+    public  Response<Object> getEmployeeById(@PathVariable long id)  throws AppException  {
+        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getEmployeeById(id));
     }
 
     @PutMapping("/{id}/{position}")
-    public void updatePosition(@PathVariable Long id, @PathVariable String position) throws Exception {
+    public void updatePosition(@PathVariable Long id, @PathVariable String position) throws AppException {
          employeeService.updatePosition(id, position);
     }
 }

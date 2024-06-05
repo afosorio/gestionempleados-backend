@@ -11,7 +11,11 @@ public interface EmployeeRepository {
 
     Optional<Employee> findByEmployeeId(Long officeId);
 
-    List<Employee> findAllEmployess();
+    Optional<List<Employee>> findAllEmployess();
+
+    Optional<List<Employee>> findAllEmployess( final String document,
+    final String position,
+    final String status);
 
     Integer countByOfficeId(long officeId);
 }
