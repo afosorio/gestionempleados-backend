@@ -4,6 +4,7 @@ import com.co.flypass.gestionempleados.application.EmployeeService;
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.exception.AppException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Response<Object> save(@RequestBody Employee employee) throws AppException {
+    public Response<Object> save(@RequestBody @Valid  Employee employee) throws AppException {
         employeeService.save(employee);
         return new Response<>(HttpServletResponse.SC_OK, "Empleado Creado");
     }
