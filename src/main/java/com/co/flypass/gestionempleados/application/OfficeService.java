@@ -4,6 +4,8 @@ import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
 import com.co.flypass.gestionempleados.exception.AppException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -13,6 +15,7 @@ public class OfficeService {
 
     private final OfficeRepository officeRepository;
     private final EmployeeService employeeService;
+    private static final Logger logger = LoggerFactory.getLogger(OfficeService.class);
 
     public OfficeService(OfficeRepository officeRepository, EmployeeService employeeService) {
         this.officeRepository = officeRepository;
@@ -27,7 +30,8 @@ public class OfficeService {
     private void validateOffice(Office office) throws AppException {
 
         if(Objects.isNull(office.getGeographicalLocation())){
-            throw new AppException("La ubicación No  Exíste");
+            logger.info(Constant.LOCATION_NOT_FOUND);
+            throw new AppException();
         }
     }
 

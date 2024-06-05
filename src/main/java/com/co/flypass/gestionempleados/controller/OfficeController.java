@@ -22,17 +22,17 @@ public class OfficeController {
     public Response<Object> save(@RequestBody @Valid Office office) throws AppException {
 
         officeService.save(office);
-        return new Response<>(HttpServletResponse.SC_OK, "Oficina Creada");
+        return new Response<>(HttpServletResponse.SC_OK, Constant.OFFICE_CREATED);
     }
 
     @GetMapping("/employee/{employeeId}")
     public Response<Object> employeeOffice(@PathVariable long employeeId) throws Exception {
 
-        return new Response<>(HttpServletResponse.SC_OK, "Oficina encontrada", officeService.getOfficeByEmployee(employeeId));
+        return new Response<>(HttpServletResponse.SC_OK, Constant.OFFICE_FOUND, officeService.getOfficeByEmployee(employeeId));
     }
 
     @GetMapping("/employeescount/{officeId}")
     public Response<Object>  countEmployeesByOffice(@PathVariable long officeId) {
-        return new Response<>(HttpServletResponse.SC_OK, "Cantidad de Empleados por Oficina", officeService.getCountEmployeesByOffice(officeId));
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEES_BY_OFFICE, officeService.getCountEmployeesByOffice(officeId));
     }
 }

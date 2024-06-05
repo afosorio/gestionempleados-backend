@@ -20,18 +20,18 @@ public class EmployeeController {
     @PostMapping
     public Response<Object> save(@RequestBody @Valid  Employee employee) throws AppException {
         employeeService.save(employee);
-        return new Response<>(HttpServletResponse.SC_OK, "Empleado Creado");
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEE_CREATED);
     }
 
     @PutMapping
     public Response<Object> update(@RequestBody Employee employee){
         employeeService.update(employee);
-        return new Response<>(HttpServletResponse.SC_OK, "Empleado Actualizado");
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEE_UPDATE);
     }
 
     @GetMapping("/all")
     public  Response<Object> getAllEmployees() throws AppException {
-        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getAll());
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEES_LIST_FOUND, employeeService.getAll());
     }
 
     @GetMapping("/employees")
@@ -39,17 +39,17 @@ public class EmployeeController {
                                           @RequestParam(required = false) final String position,
                                           @RequestParam(required = false) final String status) throws AppException {
 
-        return new Response<>(HttpServletResponse.SC_OK, "Lista de Empleados", employeeService.getAll(document, position, status));
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEES_LIST_FOUND, employeeService.getAll(document, position, status));
     }
 
     @GetMapping("/{id}")
     public  Response<Object> getEmployeeById(@PathVariable long id)  throws AppException  {
-        return new Response<>(HttpServletResponse.SC_OK, "Empleado encotrado", employeeService.getEmployeeById(id));
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEE_FOUND, employeeService.getEmployeeById(id));
     }
 
     @PutMapping("/updateposition/{id}/{position}")
     public Response<Object> updatePosition(@PathVariable long id, @PathVariable String position) throws AppException {
          employeeService.updatePosition(id, position);
-        return new Response<>(HttpServletResponse.SC_OK, "Posición Actualizada");
+        return new Response<>(HttpServletResponse.SC_OK, Constant.EMPLOYEE_POSITION_UPDATE);
     }
 }
