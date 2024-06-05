@@ -1,8 +1,9 @@
 package com.co.flypass.gestionempleados.domain.office;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
-import com.co.flypass.gestionempleados.exception.NoDataFoundException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +11,10 @@ import java.util.Objects;
 public class Office {
 
     private Long id;
+    @NotBlank(message = "Es obligatorio")
     private String name;
+
+    @NotNull(message = "Es obligatorio")
     private Location geographicalLocation;
     @JsonIgnore
     private List<Employee> employees;

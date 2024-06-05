@@ -1,23 +1,39 @@
 package com.co.flypass.gestionempleados.domain.employee;
 
-import com.co.flypass.gestionempleados.domain.office.Location;
 import com.co.flypass.gestionempleados.domain.office.Office;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Employee {
 
+
     private Long id;
+
+    @NotBlank(message = "Es obligatorio")
     private String name;
+
+    @NotBlank(message = "Es obligatorio")
     private String document;
+
+    @NotBlank(message = "Es obligatorio")
     private String position;
+
+    @NotNull(message = "Es obligatorio")
     private LocalDate contractDate;
+
+    @NotNull(message = "Es obligatorio")
     private Estatus status;
+
+    @NotNull(message = "Es obligatorio")
     private Double salary;
+
+    @NotNull(message = "Es obligatorio")
     private Office office;
 
-    public Employee(Long id, String name, String document, String position, LocalDate contractDate, long status, Double salary, Office office) {
+    public Employee(Long id, String name, String document, String position,  LocalDate contractDate, long status,  Double salary, Office office) {
         this.id = id;
         this.name = name;
         this.document = document;

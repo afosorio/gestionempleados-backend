@@ -2,7 +2,6 @@ package com.co.flypass.gestionempleados.application;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.domain.employee.EmployeeRepository;
-import com.co.flypass.gestionempleados.domain.employee.EnumEmployeeStatus;
 import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
 import com.co.flypass.gestionempleados.exception.AppException;
@@ -33,25 +32,18 @@ public class EmployeeService {
 
     private void validateEmployee(Employee employee) throws AppException {
 
-        if (Objects.isNull(employee)) {
-            throw new AppException("La oficina es obligatoria");
-        }
 
         Optional<Office> sourceOffice = officeRepository.findOfficeById(employee.getOffice().getId());
-        if(sourceOffice.isEmpty()){
+        if (sourceOffice.isEmpty()) {
             throw new NoDataFoundException("La oficina no Existe");
         }
 
-        if(Objects.isNull(employee.getDocument()) || employee.getDocument().isEmpty()){
-            throw new NoDataFoundException("El Documento es obligatorio");
-        }
-
         Optional<List<Employee>> sourceEmployee = employeeRepository.findByDocument(employee.getDocument());
-        if(sourceEmployee.isPresent()){
+        if (sourceEmployee.isPresent()) {
             throw new NoDataFoundException("El Empleado con documento " + employee.getDocument() + " ya existe");
         }
 
-        if(Objects.isNull(employee.getStatus())){
+        if (Objects.isNull(employee.getStatus())) {
             throw new AppException("El estado No Existe");
         }
 

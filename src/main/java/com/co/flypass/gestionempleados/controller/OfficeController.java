@@ -4,7 +4,9 @@ import com.co.flypass.gestionempleados.application.OfficeService;
 import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.exception.AppException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/office")
@@ -17,7 +19,7 @@ public class OfficeController {
     }
 
     @PostMapping()
-    public Response<Object> save(@RequestBody Office office) throws AppException {
+    public Response<Object> save(@RequestBody @Valid Office office) throws AppException {
 
         officeService.save(office);
         return new Response<>(HttpServletResponse.SC_OK, "Oficina Creada");
