@@ -1,5 +1,6 @@
 package com.co.flypass.gestionempleados.domain.employee;
 
+import com.co.flypass.gestionempleados.domain.Constant;
 import com.co.flypass.gestionempleados.domain.office.Office;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,27 +11,28 @@ import java.util.Objects;
 public class Employee {
 
 
+
     private Long id;
 
-    @NotBlank(message = "Es obligatorio")
+    @NotBlank(message = Constant.MESSAGE)
     private String name;
 
-    @NotBlank(message = "Es obligatorio")
+    @NotBlank(message =  Constant.MESSAGE)
     private String document;
 
-    @NotBlank(message = "Es obligatorio")
+    @NotBlank(message =  Constant.MESSAGE)
     private String position;
 
-    @NotNull(message = "Es obligatorio")
+    @NotNull(message =  Constant.MESSAGE)
     private LocalDate contractDate;
 
-    @NotNull(message = "Es obligatorio")
+    @NotNull(message =  Constant.MESSAGE)
     private Estatus status;
 
-    @NotNull(message = "Es obligatorio")
+    @NotNull(message =  Constant.MESSAGE)
     private Double salary;
 
-    @NotNull(message = "Es obligatorio")
+    @NotNull(message =  Constant.MESSAGE)
     private Office office;
 
     public Employee(Long id, String name, String document, String position,  LocalDate contractDate, long status,  Double salary, Office office) {
