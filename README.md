@@ -23,3 +23,8 @@ Prueba de  Gestion de Empleados nivel 3
 2 = ("Bogotá"),
 3 = ("Armenia"),
 4 = ("Santa Marta");
+
+
+# NOTA
+
+**Primero debes crear oficinas para poder crear empleados**
