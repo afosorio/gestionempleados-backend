@@ -1,5 +1,6 @@
 package com.co.flypass.gestionempleados.domain.office;
 
+import com.co.flypass.gestionempleados.domain.Constant;
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
@@ -11,10 +12,10 @@ import java.util.Objects;
 public class Office {
 
     private Long id;
-    @NotBlank(message = "Es obligatorio")
+    @NotBlank(message =  Constant.MESSAGE)
     private String name;
 
-    @NotNull(message = "Es obligatorio")
+    @NotNull(message =  Constant.MESSAGE)
     private Location geographicalLocation;
     @JsonIgnore
     private List<Employee> employees;
