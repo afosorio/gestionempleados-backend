@@ -31,7 +31,7 @@ public class EmployeeEntity
     private LocalDate contractDate;
 
     @Column(name = "status")
-    private String status;
+    private long status;
 
     @Column(name = "salary")
     private Double salary;
@@ -39,7 +39,7 @@ public class EmployeeEntity
     @ManyToOne(fetch = FetchType.LAZY)
     private OfficeEntity office;
 
-    public EmployeeEntity(Long id, String name, String document, String position, LocalDate contractDate, String status, Double salary, OfficeEntity office) {
+    public EmployeeEntity(Long id, String name, String document, String position, LocalDate contractDate, long status, Double salary, OfficeEntity office) {
         this.id = id;
         this.name = name;
         this.document = document;
@@ -93,11 +93,11 @@ public class EmployeeEntity
         this.contractDate = contractDate;
     }
 
-    public String getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 
@@ -124,7 +124,7 @@ public class EmployeeEntity
                 employee.getDocument(),
                 employee.getPosition(),
                 employee.getContractDate(),
-                employee.getStatus(),
+                employee.getStatus().id(),
                 employee.getSalary(),
                 OfficeEntity.fromDomain(employee.getOffice())
         );

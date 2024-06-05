@@ -17,13 +17,15 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void save(@RequestBody Employee employee) throws AppException {
+    public Response<Object> save(@RequestBody Employee employee) throws AppException {
         employeeService.save(employee);
+        return new Response<>(HttpServletResponse.SC_OK, "Empleado Creado");
     }
 
     @PutMapping
-    public void update(@RequestBody Employee employee){
+    public Response<Object> update(@RequestBody Employee employee){
         employeeService.update(employee);
+        return new Response<>(HttpServletResponse.SC_OK, "Empleado Actualizado");
     }
 
     @GetMapping("/all")
@@ -45,7 +47,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/updateposition/{id}/{position}")
-    public void updatePosition(@PathVariable Long id, @PathVariable String position) throws AppException {
+    public Response<Object> updatePosition(@PathVariable long id, @PathVariable String position) throws AppException {
          employeeService.updatePosition(id, position);
+        return new Response<>(HttpServletResponse.SC_OK, "Posición Actualizada");
     }
 }

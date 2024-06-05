@@ -1,8 +1,10 @@
 package com.co.flypass.gestionempleados.domain.employee;
 
+import com.co.flypass.gestionempleados.domain.office.Location;
 import com.co.flypass.gestionempleados.domain.office.Office;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Employee {
 
@@ -11,22 +13,24 @@ public class Employee {
     private String document;
     private String position;
     private LocalDate contractDate;
-    private String status;
+    private Estatus status;
     private Double salary;
     private Office office;
 
-    public Employee(Long id, String name, String document, String position, LocalDate contractDate, String status, Double salary, Office office) {
+    public Employee(Long id, String name, String document, String position, LocalDate contractDate, long status, Double salary, Office office) {
         this.id = id;
         this.name = name;
         this.document = document;
         this.position = position;
         this.contractDate = contractDate;
-        this.status = status;
         this.salary = salary;
         this.office = office;
-    }
 
-    public Employee(){}
+        EnumEmployeeStatus enumEmployeeStatus = EnumEmployeeStatus.findById(status);
+        if(Objects.nonNull(enumEmployeeStatus)){
+            this.status = new Estatus(enumEmployeeStatus.ordinal(), enumEmployeeStatus.getValue());
+        }
+    }
 
     public Long getId() {
         return id;
@@ -68,11 +72,11 @@ public class Employee {
         this.contractDate = contractDate;
     }
 
-    public String getStatus() {
+    public Estatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Estatus status) {
         this.status = status;
     }
 

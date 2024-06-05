@@ -2,7 +2,6 @@ package com.co.flypass.gestionempleados.infraestructure.persistence.office;
 
 import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
-import com.co.flypass.gestionempleados.infraestructure.persistence.employee.EmployeeEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

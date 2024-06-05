@@ -1,8 +1,11 @@
 package com.co.flypass.gestionempleados.domain.office;
 
-import java.util.Arrays;
+import com.co.flypass.gestionempleados.exception.NoDataFoundException;
 
- enum EnumOfficeLocation {
+import java.util.Arrays;
+import java.util.Optional;
+
+public enum EnumOfficeLocation {
 
     CITY_ONE("Medellín"),
     CITY_TWO("Bogotá"),
@@ -19,10 +22,9 @@ import java.util.Arrays;
         return this.value;
     }
 
-    public static EnumOfficeLocation findById(long id){
+    public static EnumOfficeLocation findById(long id) {
 
-        return Arrays.stream(EnumOfficeLocation.values())
-                .filter(enumOfficeLocation -> enumOfficeLocation.ordinal() == id).
-                findAny().get();
+        Optional<EnumOfficeLocation> location = Arrays.stream(EnumOfficeLocation.values()).filter((enumOfficeLocation)-> enumOfficeLocation.ordinal() == id).findAny();
+        return location.orElse(null);
     }
 }

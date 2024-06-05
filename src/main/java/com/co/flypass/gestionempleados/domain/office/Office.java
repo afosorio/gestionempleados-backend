@@ -1,9 +1,11 @@
 package com.co.flypass.gestionempleados.domain.office;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
+import com.co.flypass.gestionempleados.exception.NoDataFoundException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Office {
 
@@ -13,11 +15,13 @@ public class Office {
     @JsonIgnore
     private List<Employee> employees;
 
-    public Office(Long id, String name, long geographicalLocation) {
+    public Office(Long id, String name, long geographicalLocation)  {
         this.id = id;
         this.name = name;
         EnumOfficeLocation enumOfficeLocation = EnumOfficeLocation.findById(geographicalLocation);
-        this.geographicalLocation = new Location(enumOfficeLocation.ordinal(), enumOfficeLocation.getValue());
+        if(Objects.nonNull(enumOfficeLocation)){
+            this.geographicalLocation =  new Location(enumOfficeLocation.ordinal(), enumOfficeLocation.getValue());
+        }
     }
 
     public Long getId() {

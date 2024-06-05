@@ -49,14 +49,6 @@ public interface EmployeeRepositoryImpl extends ListCrudRepository<EmployeeEntit
 
     @Override
     default Optional<List<Employee>> findByDocument(String document){
-
-        Specification<EmployeeEntity> specification = EmployeeSpecification.get(document, null, null);
-        List<EmployeeEntity> listEntity = findAll(specification);
-        List<Employee> listDomain = listEntity.stream().map(EmployeeEntity::toDomain).toList();
-
-        if (listDomain.isEmpty()) return Optional.empty();
-        return Optional.of(listDomain);
-
-
+        return findAllEmployess(document, null, null);
     }
 }

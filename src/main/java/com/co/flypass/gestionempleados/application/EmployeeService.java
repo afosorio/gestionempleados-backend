@@ -2,11 +2,11 @@ package com.co.flypass.gestionempleados.application;
 
 import com.co.flypass.gestionempleados.domain.employee.Employee;
 import com.co.flypass.gestionempleados.domain.employee.EmployeeRepository;
+import com.co.flypass.gestionempleados.domain.employee.EnumEmployeeStatus;
 import com.co.flypass.gestionempleados.domain.office.Office;
 import com.co.flypass.gestionempleados.domain.office.OfficeRepository;
 import com.co.flypass.gestionempleados.exception.AppException;
 import com.co.flypass.gestionempleados.exception.NoDataFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -50,6 +50,11 @@ public class EmployeeService {
         if(sourceEmployee.isPresent()){
             throw new NoDataFoundException("El Empleado con documento " + employee.getDocument() + " ya existe");
         }
+
+        if(Objects.isNull(employee.getStatus())){
+            throw new AppException("El estado No Existe");
+        }
+
     }
 
     public void update(Employee employee) {

@@ -6,11 +6,6 @@ public class Response<T> {
     private int httpCode;
     private String message;
 
-    public Response(int httpCode, T body) {
-        this.httpCode = httpCode;
-        this.body = body;
-    }
-
     public Response(int httpCode, String message) {
         this.httpCode = httpCode;
         this.message = message;

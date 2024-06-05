@@ -2,6 +2,7 @@ package com.co.flypass.gestionempleados.controller;
 
 import com.co.flypass.gestionempleados.application.OfficeService;
 import com.co.flypass.gestionempleados.domain.office.Office;
+import com.co.flypass.gestionempleados.exception.AppException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,10 @@ public class OfficeController {
     }
 
     @PostMapping()
-    public void save(@RequestBody Office office){
+    public Response<Object> save(@RequestBody Office office) throws AppException {
+
         officeService.save(office);
+        return new Response<>(HttpServletResponse.SC_OK, "Oficina Creada");
     }
 
     @GetMapping("/employee/{employeeId}")
@@ -27,7 +30,7 @@ public class OfficeController {
     }
 
     @GetMapping("/employeescount/{officeId}")
-    public Response<Object>  countEmployeesByOffice(@PathVariable Long officeId) throws Exception {
+    public Response<Object>  countEmployeesByOffice(@PathVariable long officeId) {
         return new Response<>(HttpServletResponse.SC_OK, "Cantidad de Empleados por Oficina", officeService.getCountEmployeesByOffice(officeId));
     }
 }
